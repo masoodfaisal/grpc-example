@@ -58,3 +58,7 @@ protobuf {
     }
 }
 
+task execute(type:JavaExec) {
+    main = getProperty("mainClass")
+    classpath = sourceSets.main.runtimeClasspath
+}

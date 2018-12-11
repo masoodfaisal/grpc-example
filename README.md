@@ -102,9 +102,16 @@ git clone https://github.com/masoodfaisal/grpc-example.git
 ./gradlew build
 ```
 
+* Run the EDS Server
+```bash
+./gradlew -PmainClass=com.faisal.eds.EDSServerKt execute
+
+```
+
 * Run the first and second instance of the server
 ```bash
-
+./gradlew -PmainClass=com.faisal.grpc.server.EventServerKt execute
+./gradlew -PmainClass=com.faisal.grpc.server.EventServer2Kt execute
 ```
 
 * Run enovy proxy
@@ -116,6 +123,7 @@ docker run -p 9090:9090 -p 8080:8080 envoy:grpclb
 
 * Run client, multiple times and you can see the calls are being distributed in a round robin
 ```bash
+./gradlew -PmainClass=com.faisal.grpc.client.EventClientKt execute
 ```
 
 

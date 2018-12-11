@@ -1,0 +1,42 @@
+syntax  = "proto3";
+
+
+import "google/protobuf/empty.proto";
+
+package event;
+
+
+
+option java_package = "com.proto.event";
+option java_multiple_files = true;
+
+
+message Event {
+    int32 event_id = 1;
+    string event_name = 2;
+    repeated string event_hosts = 3;
+
+
+
+}
+
+enum EVENT_TYPE {
+    UNDECLARED = 0;
+    BIRTHDAY = 1;
+    MARRIAGE = 2;
+}
+
+
+
+message CreateEventResponse{
+    string success = 1;
+}
+
+message AllEventsResponse{
+    Event event = 1;
+}
+
+service EventsService{
+    rpc CreateEvent(Event) returns (CreateEventResponse) {};
+    rpc AllEvents(google.protobuf.Empty) returns (stream AllEventsResponse) {};
+}

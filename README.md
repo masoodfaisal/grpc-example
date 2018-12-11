@@ -86,8 +86,53 @@ fun main(args: Array<String>) {
 * I have copied the server code into another [file](https://github.com/masoodfaisal/grpc-example/blob/master/src/main/java/com/faisal/grpc/server/EventServer2.kt) and change the port number to mimic multiple instances of our events service.
 * Envoy proxy configuration has three parts. All these settings are in [envoy yaml](https://github.com/masoodfaisal/grpc-example/blob/master/envoy-docker/envoy.yaml)
   * A frontend service. This service will receive request from the clients.
-  * A backend service. The frontend service will loadbalance the calls to this set of servers.
-  * An optional EDS endpoint. This is another service which will provide the list of backend endpoints. This way envoy can dynamically adjust to the available servers. I have written this EDS service as a [simple class](https://github.com/masoodfaisal/grpc-example/blob/master/src/main/java/com/faisal/eds/EDSServer.kt).
+```yaml
+     listeners:
+        - name: envoy_listener
+          address:
+            socket_address: { address: 0.0.0.0, port_value: 8080 }
+          filter_chains:
+            - filters:
+                - name: envoy.http_connection_manager
+                  config:
+                    stat_prefix: ingress_http
+                    codec_type: AUTO
+                    route_config:
+                      name: local_route
+                      virtual_hosts:
+                        - name: local_service
+                          domains: ["*"]
+                          routes:
+                            - match: { prefix: "/" }
+                              route: { cluster: grpc_service }
+                    http_filters:
+                      - name: envoy.router
+     
+```
+  * A backend service (the name is grpc_service in the envoy.yaml file). The frontend service will loadbalance the calls to this set of servers.
+    Note that this doesnot know about the location of the actual backend service. The location of backend service aka serice discovery is provided via an EDS service - see next bullet point.
+```yaml
+        - name: grpc_service
+          connect_timeout: 5s
+          lb_policy: ROUND_ROBIN
+          http2_protocol_options: {}
+          type: EDS
+          eds_cluster_config:
+            eds_config:
+              api_config_source:
+                api_type: REST
+                cluster_names: [eds_cluster]
+                refresh_delay: 5s
+```
+  
+  * An (optional - you can provide fixed list of servers too) EDS endpoint. This is another service which will provide the list of backend endpoints. This way envoy can dynamically adjust to the available servers. I have written this EDS service as a [simple class](https://github.com/masoodfaisal/grpc-example/blob/master/src/main/java/com/faisal/eds/EDSServer.kt).
+```yaml
+    - name: eds_cluster
+          connect_timeout: 5s
+          type: STATIC
+          hosts: [{ socket_address: { address: 10.0.0.112, port_value: 7070 }}]
+
+```
 
 
 # Execution

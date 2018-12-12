@@ -7,13 +7,15 @@ import com.proto.event.EventsServiceGrpc
 import io.grpc.ManagedChannelBuilder
 
 fun main(args: Array<String>) {
-    var eventsChannel = ManagedChannelBuilder.forAddress("10.0.0.112", 8080)
+    var eventsChannel = ManagedChannelBuilder.forAddress("192.168.0.144", 8080)
             .usePlaintext()
             .build()
 
     var eventServiceStub = EventsServiceGrpc.newBlockingStub(eventsChannel)
 
-    eventServiceStub.createEvent(Event.newBuilder().setEventId(1).setEventName("Event 001").build())
+    for(i in 1..20) {
+        eventServiceStub.createEvent(Event.newBuilder().setEventId(i).setEventName("Event $i").build())
+    }
 
 //    eventServiceStub.allEvents(Empty.getDefaultInstance()).forEachRemaining {
 //        t: AllEventsResponse? ->

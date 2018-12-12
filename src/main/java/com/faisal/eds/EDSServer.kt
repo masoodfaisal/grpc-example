@@ -46,7 +46,7 @@ val EDS_RESPONSE = "{\n" +
         "\t\t\t\t\t\t\t\"endpoint\": {\n" +
         "\t\t\t\t\t\t\t\t\"address\": {\n" +
         "\t\t\t\t\t\t\t\t\t\"socket_address\": {\n" +
-        "\t\t\t\t\t\t\t\t\t\t\"address\": \"10.0.0.112\",\n" +
+        "\t\t\t\t\t\t\t\t\t\t\"address\": \"192.168.0.144\",\n" +
         "\t\t\t\t\t\t\t\t\t\t\"port_value\": 50051\n" +
         "\t\t\t\t\t\t\t\t\t}\n" +
         "\t\t\t\t\t\t\t\t}\n" +
@@ -57,7 +57,7 @@ val EDS_RESPONSE = "{\n" +
         "\t\t\t\t\t\t\t\"endpoint\": {\n" +
         "\t\t\t\t\t\t\t\t\"address\": {\n" +
         "\t\t\t\t\t\t\t\t\t\"socket_address\": {\n" +
-        "\t\t\t\t\t\t\t\t\t\t\"address\": \"10.0.0.112\",\n" +
+        "\t\t\t\t\t\t\t\t\t\t\"address\": \"192.168.0.144\",\n" +
         "\t\t\t\t\t\t\t\t\t\t\"port_value\": 50052\n" +
         "\t\t\t\t\t\t\t\t\t}\n" +
         "\t\t\t\t\t\t\t\t}\n" +

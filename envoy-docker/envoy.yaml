@@ -34,7 +34,7 @@ static_resources:
     - name: eds_cluster
       connect_timeout: 5s
       type: STATIC
-      hosts: [{ socket_address: { address: 10.0.0.112, port_value: 7070 }}]
+      hosts: [{ socket_address: { address: 192.168.0.144, port_value: 7070 }}]
 admin:
   access_log_path: /dev/null
   address:
